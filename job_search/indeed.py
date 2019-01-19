@@ -61,8 +61,10 @@ def get_description_for_given_job_url(url):
     for ele in eles:
         return ele.text
 
-def search_indeed_jobs(keyword, location):
-  limit = 10
+def search_indeed_jobs(params):
+  keyword = params['keyword']
+  location = params['location']
+  limit = 1
   # url = "https://www.indeed.com.sg/jobs?q=software+engineer&l=Singapore&start=10"
   # &as_phr=b&as_any=c&as_not=d&as_ttl=e&as_cmp=f&as_src=g&sort=&psf=advsrch
   url = "https://www.indeed.com.sg/jobs?as_and=" + keyword.lower().strip().replace(" ", "+") + "&l=" + location.lower().strip() + "&limit=" + str(limit) + "&jt=all&radius=10&fromage=7"
@@ -82,7 +84,7 @@ def search_indeed_jobs(keyword, location):
     job['company'] = companies[i]
     job['location'] = locations[i]
     # job['salary'] = salaries[i]
-    job['summary'] = get_description_for_given_job_url(job_links[i])
+    # job['summary'] = get_description_for_given_job_url(job_links[i])
     jobs.append(job)
   if len(jobs) > limit:
       jobs = jobs[:limit]
@@ -90,8 +92,12 @@ def search_indeed_jobs(keyword, location):
 
 # import time
 # start = time.time()
-jobs = search_indeed_jobs("data scientist", "Singapore")
+# params = {
+#     "keyword": "data scientist",
+#     "location": "singapore"
+# }
+# jobs = search_indeed_jobs(params)
 # end = time.time()
 # print(end-start)
 # for job in jobs:
-#     print(job['summary'])
+#     print("\"" + job['link'] + "\",")
