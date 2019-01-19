@@ -12,25 +12,24 @@ from timeit import default_timer as timer
 from indeed import *
 info = logging.getLogger().info
 
-def parallelize_requests(listOfRequests):
+def parallelize_requests(f, listOfRequests):
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
-    info("spawning jobs")
     pool = Pool(20) # limit number of concurrent connections
     start = timer()
-    listOfResponses = pool.map(search_indeed_jobs, listOfRequests)
+    listOfResponses = pool.map(f, listOfRequests)
     info("%d hosts took us %f seconds", len(listOfRequests), timer() - start)
     return listOfResponses
 
-if __name__=="__main__":
-    strings = [
-        'Deep Learning', 'software engineer', 'test engineer', 'devops engineer', 'mechanical engineer', 'entrepreneur',
-        'Deep Learning', 'software engineer', 'test engineer', 'devops engineer'
-    ]
-    listOfRequests = []
-    for keyword in strings:
-        listOfRequests.append({ "keyword": keyword, "location": "singapore" })
-    listOfResponses = parallelize_requests(listOfRequests)
-    responses = []
-    for response in listOfResponses:
-        responses.extend(response)
-    print(len(responses))
+# if __name__=="__main__":
+#     strings = [
+#         'Deep Learning', 'software engineer', 'test engineer', 'devops engineer', 'mechanical engineer', 'entrepreneur',
+#         'Deep Learning', 'software engineer', 'test engineer', 'devops engineer'
+#     ]
+#     listOfRequests = []
+#     for keyword in strings:
+#         listOfRequests.append({ "keyword": keyword, "location": "singapore" })
+#     listOfResponses = parallelize_requests(listOfRequests)
+#     responses = []
+#     for response in listOfResponses:
+#         responses.extend(response)
+#     print(len(responses))

@@ -64,7 +64,7 @@ def get_description_for_given_job_url(url):
 def search_indeed_jobs(params):
   keyword = params['keyword']
   location = params['location']
-  limit = 10
+  limit = 1
   # url = "https://www.indeed.com.sg/jobs?q=software+engineer&l=Singapore&start=10"
   # &as_phr=b&as_any=c&as_not=d&as_ttl=e&as_cmp=f&as_src=g&sort=&psf=advsrch
   url = "https://www.indeed.com.sg/jobs?as_and=" + keyword.lower().strip().replace(" ", "+") + "&l=" + location.lower().strip() + "&limit=" + str(limit) + "&jt=all&radius=10&fromage=7"
@@ -79,7 +79,7 @@ def search_indeed_jobs(params):
   jobs = []
   for i in range(len(job_titles)):
     job = {}
-    # job['link'] = job_links[i]
+    job['link'] = job_links[i]
     job['job_title'] = job_titles[i]
     job['company'] = companies[i]
     job['location'] = locations[i]
