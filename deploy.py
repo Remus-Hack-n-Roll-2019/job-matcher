@@ -1,9 +1,10 @@
 from flask import Flask, redirect, request
 from linkedin import linkedin
+import requests
 app = Flask(__name__)
 
-# DOMAIN = 'http://127.0.0.1:5000'
-DOMAIN = 'https://job-matcher-hack-n-roll.herokuapp.com'
+DOMAIN = 'http://127.0.0.1:5000'
+# DOMAIN = 'https://job-matcher-hack-n-roll.herokuapp.com'
 RETURN_URL = f'{DOMAIN}/auth'
 
 APPLICATON_KEY    = '78hh02ldxxcnrh'
@@ -45,8 +46,12 @@ def auth():
 
 @app.route("/user")
 def user_authenticated():
+    # page = requests.get('https://www.linkedin.com/in/me')
+    # print(page.text)
     # li_profile = linkedin.LinkedInApplication(token=authentication.get_access_token().access_token)
-    return 'Tailored lakjkdsfj'
+    return redirect('https://www.linkedin.com/in/me')
+
+
 
 
 
