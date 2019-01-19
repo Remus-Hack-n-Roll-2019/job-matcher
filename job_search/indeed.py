@@ -82,7 +82,7 @@ def search_indeed_jobs(keyword, location):
     job['company'] = companies[i]
     job['location'] = locations[i]
     # job['salary'] = salaries[i]
-    job['summary'] = get_description_for_given_job_url(job_links[i])
+    # job['summary'] = get_description_for_given_job_url(job_links[i])
     jobs.append(job)
   if len(jobs) > limit:
       jobs = jobs[:limit]
@@ -93,5 +93,5 @@ def search_indeed_jobs(keyword, location):
 jobs = search_indeed_jobs("data scientist", "Singapore")
 # end = time.time()
 # print(end-start)
-# for job in jobs:
-#     print(job['summary'])
+for job in jobs:
+    print("\"" + job['link'] + "\",")
