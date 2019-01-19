@@ -1,57 +1,31 @@
-from flask import Flask, redirect, request
-from linkedin import linkedin
-import requests
+import os
+from flask import Flask, flash, request, redirect, url_for
+from werkzeug.utils import secure_filename
+from flask_cors import CORS, cross_origin
+
+UPLOAD_FOLDER = 'static/'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
 app = Flask(__name__)
-
-DOMAIN = 'http://127.0.0.1:5000'
-# DOMAIN = 'https://job-matcher-hack-n-roll.herokuapp.com'
-RETURN_URL = f'{DOMAIN}/auth'
-
-APPLICATON_KEY    = '78hh02ldxxcnrh'
-APPLICATON_SECRET = 'X7ybGWKcUlhjkdff'
-
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/")
 def start():
-    return "<a href='/linkedin'><img src='static/images/linkedin-signin.png'></img></a>"
+    return "<h1> Our website!!</h1>"
 
-@app.route("/linkedin")
-def linkedin_redirect():
-    authentication = linkedin.LinkedInAuthentication(
-                        APPLICATON_KEY,
-                        APPLICATON_SECRET,
-                        RETURN_URL,
-                        ['r_basicprofile']
-                    )
-    print(dir(authentication))
-    return redirect(authentication.authorization_url, code=302)
+@app.route('/upload', methods=['POST'])
+def fileUpload():
+    target=os.path.join(UPLOAD_FOLDER)
+    if not os.path.isdir(target):
+        os.mkdir(target)
+    file = request.files['file']
+    filename = secure_filename(file.filename)
+    destination="/".join([target, filename])
+    file.save(destination)
+    return 'File saved'
 
+if __name__ == "__main__":
+    app.secret_key = os.urandom(24)
+    app.run(debug=True,host="0.0.0.0",use_reloader=False)
 
-@app.route("/auth")
-def auth():
-    authentication = linkedin.LinkedInAuthentication(
-                    APPLICATON_KEY,
-                    APPLICATON_SECRET,
-                    RETURN_URL,
-                    ['r_basicprofile']
-                )
-    auth_code = request.args.get('code', default = None, type = str)
-    authentication.authorization_code = auth_code
-    token = authentication.get_access_token().access_token
-
-    li_application = linkedin.LinkedInApplication(token=token)
-    print(li_application.get_profile())
-    return redirect('/user')
-
-
-@app.route("/user")
-def user_authenticated():
-    # page = requests.get('https://www.linkedin.com/in/me')
-    # print(page.text)
-    # li_profile = linkedin.LinkedInApplication(token=authentication.get_access_token().access_token)
-    return redirect('https://www.linkedin.com/in/me')
-
-
-
-
-
+CORS(app, expose_headers='Authorization')
