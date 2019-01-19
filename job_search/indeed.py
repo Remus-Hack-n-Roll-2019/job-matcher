@@ -4,13 +4,6 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import time
 
-URL = "https://www.indeed.com/jobs?q=data+scientist+%2420%2C000&l=New+York&start=10"
-#conducting a request of the stated URL above:
-page = requests.get(URL)
-#specifying a desired format of "page" using the html parser - this allows python to read the various components of the page, rather than treating it as one long string.
-soup = BeautifulSoup(page.text, "html.parser")
-#printing soup in a more structured tree format that makes for easier reading
-
 def extract_job_title_from_result(soup):
   jobs = []
   for div in soup.find_all(name="div", attrs={"class":"row"}):
@@ -33,7 +26,7 @@ def extract_company_from_result(soup):
 
 def extract_location_from_result(soup):
   locations = []
-  spans = soup.findAll('span', attrs={'class': 'location'})
+  spans = soup.findAll(attrs={"class": "location"})
   for span in spans:
     locations.append(span.text)
   return(locations)
@@ -42,21 +35,48 @@ def extract_salary_from_result(soup):
   salaries = []
   for div in soup.find_all(name="div", attrs={"class":"row"}):
     try:
-      salaries.append(div.find('nobr').text)
+      salaries.append(div.find("nobr").text)
     except:
       try:
         div_two = div.find(name="div", attrs={"class":"sjcl"})
         div_three = div_two.find("div")
         salaries.append(div_three.text.strip())
       except:
-        salaries.append("Nothing_found")
+        salaries.append("Not available")
   return(salaries)
 
 def extract_summary_from_result(soup):
   summaries = []
-  spans = soup.findAll('span', attrs={'class': 'summary'})
+  spans = soup.findAll("span", attrs={"class": "summary"})
   for span in spans:
     summaries.append(span.text.strip())
   return(summaries)
 
-print(extract_job_title_from_result(soup))
+def search_by_keyword(keyword, location, limit):
+  # url = "https://www.indeed.com.sg/jobs?q=software+engineer&l=Singapore&start=10"
+  # &as_phr=b&as_any=c&as_not=d&as_ttl=e&as_cmp=f&as_src=g&sort=&psf=advsrch
+  url = "https://www.indeed.com.sg/jobs?as_and=" + keyword.lower().strip().replace(" ", "+") + "&l=" + location.lower().strip() + "&limit=" + str(limit) + "&jt=all&radius=10&fromage=7"
+  page = requests.get(url)
+  # print(url)
+  soup = BeautifulSoup(page.text, "html.parser")
+  job_titles = extract_job_title_from_result(soup)
+  companies = extract_company_from_result(soup)
+  locations = extract_location_from_result(soup)
+  salaries = extract_salary_from_result(soup)
+  summaries = extract_summary_from_result(soup)
+  jobs = []
+  for i in range(len(job_titles)):
+    job = {}
+    job['job_title'] = job_titles[i]
+    job['company'] = companies[i]
+    job['location'] = locations[i]
+    # job['salary'] = salaries[i]
+    job['summary'] = summaries[i]
+    jobs.append(job)
+  if len(jobs) > limit:
+      jobs = jobs[:limit]
+  return jobs
+
+# jobs = search_by_keyword("data scientist", "Singapore", 10)
+# for job in jobs:
+#     print(job['company'])
