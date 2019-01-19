@@ -61,7 +61,9 @@ def get_description_for_given_job_url(url):
     for ele in eles:
         return ele.text
 
-def search_indeed_jobs(keyword, location):
+def search_indeed_jobs(params):
+  keyword = params['keyword']
+  location = params['location']
   limit = 10
   # url = "https://www.indeed.com.sg/jobs?q=software+engineer&l=Singapore&start=10"
   # &as_phr=b&as_any=c&as_not=d&as_ttl=e&as_cmp=f&as_src=g&sort=&psf=advsrch
@@ -77,7 +79,7 @@ def search_indeed_jobs(keyword, location):
   jobs = []
   for i in range(len(job_titles)):
     job = {}
-    job['link'] = job_links[i]
+    # job['link'] = job_links[i]
     job['job_title'] = job_titles[i]
     job['company'] = companies[i]
     job['location'] = locations[i]
@@ -90,8 +92,12 @@ def search_indeed_jobs(keyword, location):
 
 # import time
 # start = time.time()
-jobs = search_indeed_jobs("data scientist", "Singapore")
+# params = {
+#     "keyword": "data scientist",
+#     "location": "singapore"
+# }
+# jobs = search_indeed_jobs(params)
 # end = time.time()
 # print(end-start)
-for job in jobs:
-    print("\"" + job['link'] + "\",")
+# for job in jobs:
+#     print("\"" + job['link'] + "\",")
