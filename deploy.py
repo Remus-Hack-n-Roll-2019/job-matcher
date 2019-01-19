@@ -2,8 +2,8 @@ from flask import Flask, redirect, request
 from linkedin import linkedin
 app = Flask(__name__)
 
-# DOMAIN = 'http://127.0.0.1:5000'
-DOMAIN = 'https://job-matcher-hack-n-roll.herokuapp.com'
+DOMAIN = 'http://127.0.0.1:5000'
+# DOMAIN = 'https://job-matcher-hack-n-roll.herokuapp.com'
 RETURN_URL = f'{DOMAIN}/auth'
 
 APPLICATON_KEY    = '78hh02ldxxcnrh'

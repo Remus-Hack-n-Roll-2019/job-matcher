@@ -4,7 +4,6 @@ from linkedin import linkedin
 APPLICATON_KEY    = '78hh02ldxxcnrh'
 APPLICATON_SECRET = 'X7ybGWKcUlhjkdff'
 
-# RETURN_URL = 'https://job-matcher-hack-n-roll.herokuapp.com/auth'
 RETURN_URL = 'http://127.0.0.1:5000//auth'
 
 authentication = linkedin.LinkedInAuthentication(
