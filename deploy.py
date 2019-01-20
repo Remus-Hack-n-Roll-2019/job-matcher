@@ -29,12 +29,17 @@ def fileUpload():
     for keyword in keywords:
         listOfRequests.append({ "keyword": keyword, "location": "singapore" })
 
-    joblist = queryJobs(listOfRequests)
-    joblist = matchKeywords(keywords, joblist)
+    # joblist = queryJobs(listOfRequests)
+    # joblist = matchKeywords(keywords, joblist)
+    with open("json/latane.json") as f:
+        joblist = json.load(f)['joblist']
     for job in joblist:
         print(job['job_title'])
         print()
-    return jsonify({'joblist': joblist})
+    # import json
+    # with open("json/latane.json", 'w') as outfile:
+    #     json.dump({'joblist': joblist, 'keywords': keywords}, outfile)
+    return jsonify({'joblist': joblist, 'keywords': keywords})
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(24)

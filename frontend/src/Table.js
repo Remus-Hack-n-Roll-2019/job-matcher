@@ -4,6 +4,7 @@ import ReactTable from 'react-table';
 class Table extends Component {
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             columns: ["Job Title", "Summary", "Location"],
             jobs: props.jobs,
@@ -12,15 +13,17 @@ class Table extends Component {
 
     render() {
         const data = this.state.jobs;
-        console.log(data)
+        console.log(data);
         const columns = [{
             Header: 'Job Title',
             accessor: 'job_title'
-        }]
-        <ReactTable 
-        data = {data} 
-        columns= {columns}
-        />
+        }];
+        return (
+            <ReactTable 
+            data = {data} 
+            columns= {columns}
+            />
+        );
     }
 }
 

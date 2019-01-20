@@ -29,7 +29,7 @@ def matchKeywords(keywords, jobs):
             if word in job['job_title'].lower() or word in job['summary'].lower():
                 count += 1
         counts.append(count)
-    res = zip(jobs, counts)
+    res = list(zip(jobs, counts))
     res.sort(key=operator.itemgetter(1))
     res = res[::-1]
     jobs, _ = zip(*res)

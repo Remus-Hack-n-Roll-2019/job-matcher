@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Table from './Table';
+// import Table from './Table';
+import ReactTable from 'react-table';
 import './App.css';
 
 //Modified from https://gist.github.com/radtech/14f084922013df4efa0be20376cab28b#file-fileupload-js
@@ -10,6 +11,11 @@ class App extends Component {
 
     this.state = {
       jobs: [],
+      columns: [
+        { Header: "Job Title",
+          accessor: "job_title" }, 
+          { Header: "Summary",
+          accessor: "summary" }],
     };
 
     this.handleUploadImage = this.handleUploadImage.bind(this);
@@ -27,7 +33,8 @@ class App extends Component {
       body: data,
     }).then((response) => {
       response.json().then((body) => {
-        this.setState({ jobs: body['joblist'] });
+        console.log(body);
+        this.setState({ jobs: body['joblist'], keywords: body['keywords'] });
       });
     });
   }
@@ -36,14 +43,19 @@ class App extends Component {
     return (
       <form onSubmit={this.handleUploadImage}>
         <div>
-          <h1> Upload pdf </h1>
+          <h2>Upload your resume and check out your best matching jobs!</h2>
           <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
         </div>
         <br />
         <div>
           <button> Upload</button>
           <br/>
-          <Table jobs={jobs} />
+          {console.log(this.state.jobs)}
+          <ReactTable 
+            data = {this.state.jobs} 
+            columns= {this.state.columns}
+            />
+          {/* <Table jobs={this.state.jobs} /> */}
         </div>
       </form>
     );
