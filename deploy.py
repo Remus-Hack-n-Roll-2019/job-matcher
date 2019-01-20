@@ -30,6 +30,7 @@ def fileUpload():
         listOfRequests.append({ "keyword": keyword, "location": "singapore" })
 
     joblist = queryJobs(listOfRequests)
+    joblist = matchKeywords(keywords, joblist)
     for job in joblist:
         print(job['job_title'])
         print()
