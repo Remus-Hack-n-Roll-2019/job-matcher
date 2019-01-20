@@ -14,8 +14,18 @@ class App extends Component {
       columns: [
         { Header: "Job Title",
           accessor: "job_title" }, 
-          { Header: "Summary",
-          accessor: "summary" }],
+          { Header: "Company",
+          accessor: "company" }, 
+          { Header: "Location",
+          accessor: "location" },
+          // { Header: "Link",
+          //   accessor: "link" }, 
+          {
+            Header: "Link",
+            id: 'hyperlink',
+            accessor: 'link',
+            Cell: ({value}) => (<a href={value}>Go</a>)
+          }],
     };
 
     this.handleUploadImage = this.handleUploadImage.bind(this);
@@ -41,23 +51,25 @@ class App extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleUploadImage}>
-        <div>
-          <h2>Upload your resume and check out your best matching jobs!</h2>
+      <div>
+        <h2>Upload your resume and check out your best matching jobs!</h2>
+        <form onSubmit={this.handleUploadImage}>
           <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
-        </div>
-        <br />
+          <div>
+            <button> Upload</button>
+          </div>
+        </form>
         <div>
-          <button> Upload</button>
           <br/>
           {console.log(this.state.jobs)}
+          
           <ReactTable 
             data = {this.state.jobs} 
             columns= {this.state.columns}
             />
           {/* <Table jobs={this.state.jobs} /> */}
         </div>
-      </form>
+      </div>
     );
   }
 }
