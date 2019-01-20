@@ -1,7 +1,10 @@
 import os
-from flask import Flask, flash, request, redirect, url_for
+from flask import *
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
+from PDFHandler import *
+from job_search.main import *
+from json import *
 
 UPLOAD_FOLDER = 'static/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -9,9 +12,6 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-@app.route("/")
-def start():
-    return "<h1> Our website!!</h1>"
 
 @app.route('/upload', methods=['POST'])
 def fileUpload():
@@ -22,7 +22,18 @@ def fileUpload():
     filename = secure_filename(file.filename)
     destination="/".join([target, filename])
     file.save(destination)
-    return 'File saved'
+
+    text = pdfparser('static/Profile.pdf')
+    keywords = extract_keywords(text)
+    listOfRequests = []
+    for keyword in keywords:
+        listOfRequests.append({ "keyword": keyword, "location": "singapore" })
+
+    joblist = queryJobs(listOfRequests)
+    for job in joblist:
+        print(job['job_title'])
+        print()
+    return jsonify({'joblist': joblist})
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(24)

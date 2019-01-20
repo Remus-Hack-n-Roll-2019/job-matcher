@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Table from './Table';
 import './App.css';
 
 //Modified from https://gist.github.com/radtech/14f084922013df4efa0be20376cab28b#file-fileupload-js
@@ -8,7 +9,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      imageURL: '',
+      jobs: [],
     };
 
     this.handleUploadImage = this.handleUploadImage.bind(this);
@@ -26,7 +27,7 @@ class App extends Component {
       body: data,
     }).then((response) => {
       response.json().then((body) => {
-        this.setState({ imageURL: `http://localhost:8000/${body.file}` });
+        this.setState({ jobs: body['joblist'] });
       });
     });
   }
@@ -40,9 +41,10 @@ class App extends Component {
         </div>
         <br />
         <div>
-          <button>Upload</button>
+          <button> Upload</button>
+          <br/>
+          <Table jobs={jobs} />
         </div>
-        <img src={this.state.imageURL} alt="img" />
       </form>
     );
   }

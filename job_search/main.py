@@ -1,7 +1,7 @@
 import json
-from parallelize import *
+from job_search.parallelize import *
 
-def queryJobs(params_list):
+def queryJobs(listOfRequests):
     listOfJobSearchResponses = parallelize_requests(search_indeed_jobs, listOfRequests)
     jobs = []
     full_job_links = []
@@ -14,18 +14,18 @@ def queryJobs(params_list):
         jobs[i]['summary'] = listOfJobDescResponses[i]
     return jobs
 
-if __name__=="__main__":
-    strings = [
-        'Deep Learning', 'software engineer', 'test engineer', 'devops engineer', 'mechanical engineer', 'entrepreneur',
-        'Deep Learning', 'software engineer', 'test engineer', 'devops engineer'
-    ]
-    listOfRequests = []
-    for keyword in strings:
-        listOfRequests.append({ "keyword": keyword, "location": "singapore" })
-    start = time.time()
-    jobs = queryJobs(listOfRequests)
-    end = time.time()
-    for job in jobs:
-        print(json.dumps(job, indent=4, sort_keys=True))
-        print("\n")
-    print(end-start)
+# if __name__=="__main__":
+#     strings = [
+#         'Deep Learning', 'software engineer', 'test engineer', 'devops engineer', 'mechanical engineer', 'entrepreneur',
+#         'Deep Learning', 'software engineer', 'test engineer', 'devops engineer'
+#     ]
+#     listOfRequests = []
+#     for keyword in strings:
+#         listOfRequests.append({ "keyword": keyword, "location": "singapore" })
+#     start = time.time()
+#     jobs = queryJobs(listOfRequests)
+#     end = time.time()
+#     for job in jobs:
+#         print(json.dumps(job, indent=4, sort_keys=True))
+#         print("\n")
+#     print(end-start)

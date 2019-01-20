@@ -9,7 +9,7 @@ import sys
 import logging
 from http.client import HTTPSConnection
 from timeit import default_timer as timer
-from indeed import *
+from job_search.indeed import *
 info = logging.getLogger().info
 
 def parallelize_requests(f, listOfRequests):
