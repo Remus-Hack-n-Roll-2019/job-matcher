@@ -1,7 +1,8 @@
 import json
+import operator
 from parallelize import *
 
-def queryJobs(params_list):
+def queryJobs(listOfRequests):
     listOfJobSearchResponses = parallelize_requests(search_indeed_jobs, listOfRequests)
     jobs = []
     full_job_links = []
@@ -12,6 +13,25 @@ def queryJobs(params_list):
     listOfJobDescResponses = parallelize_requests(get_description_for_given_job_url, full_job_links)
     for i in range(len(jobs)):
         jobs[i]['summary'] = listOfJobDescResponses[i]
+    return jobs
+
+def matchKeywords(keywords, jobs):
+    words = set()
+    for phr in keywords:
+        for word in phr.strip().split(" "):
+            words.add(word.lower())
+    words = list(words)
+    counts = []
+    for job in jobs:
+        count = 0
+        for word in words:
+            if word in job['job_title'].lower() or word in job['summary'].lower():
+                count += 1
+        counts.append(count)
+    res = zip(jobs, counts)
+    res.sort(key=operator.itemgetter(1))
+    res = res[::-1]
+    jobs, _ = zip(*res)
     return jobs
 
 if __name__=="__main__":
