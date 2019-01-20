@@ -23,7 +23,7 @@ def fileUpload():
     destination="/".join([target, filename])
     file.save(destination)
 
-    text = pdfparser('static/demo.pdf')
+    text = pdfparser(os.path.join('static', filename))
     keywords = extract_keywords(text)
     listOfRequests = []
     for keyword in keywords:
@@ -33,12 +33,11 @@ def fileUpload():
     joblist = matchKeywords(keywords, joblist)
     # with open("json/aadit.json") as f:
     #     joblist = json.load(f)['joblist']
-    for job in joblist:
-        print(job['job_title'])
-        print()
-    # import json
     # with open("json/aadit.json", 'w') as outfile:
     #     json.dump({'joblist': joblist, 'keywords': keywords}, outfile)
+    # for job in joblist:
+    #     print(job['job_title'])
+    #     print()
     return jsonify({'joblist': joblist, 'keywords': keywords})
 
 if __name__ == "__main__":
