@@ -13,18 +13,18 @@ class App extends Component {
       jobs: [],
       columns: [
         { Header: "Job Title",
-          accessor: "job_title" }, 
+          accessor: "job_title" },
           { Header: "Company",
-          accessor: "company" }, 
+          accessor: "company" },
           { Header: "Location",
           accessor: "location" },
           // { Header: "Link",
-          //   accessor: "link" }, 
+          //   accessor: "link" },
           {
             Header: "Link",
             id: 'hyperlink',
             accessor: 'link',
-            Cell: ({value}) => (<a href={value}>Go</a>)
+            Cell: ({value}) => (<a href={value} target="_blank">Go</a>)
           }],
     };
 
@@ -62,9 +62,9 @@ class App extends Component {
         <div>
           <br/>
           {console.log(this.state.jobs)}
-          
-          <ReactTable 
-            data = {this.state.jobs} 
+
+          <ReactTable
+            data = {this.state.jobs}
             columns= {this.state.columns}
             />
           {/* <Table jobs={this.state.jobs} /> */}

@@ -23,21 +23,21 @@ def fileUpload():
     destination="/".join([target, filename])
     file.save(destination)
 
-    text = pdfparser('static/Profile.pdf')
+    text = pdfparser('static/demo.pdf')
     keywords = extract_keywords(text)
     listOfRequests = []
     for keyword in keywords:
         listOfRequests.append({ "keyword": keyword, "location": "singapore" })
 
-    # joblist = queryJobs(listOfRequests)
-    # joblist = matchKeywords(keywords, joblist)
-    with open("json/latane.json") as f:
-        joblist = json.load(f)['joblist']
+    joblist = queryJobs(listOfRequests)
+    joblist = matchKeywords(keywords, joblist)
+    # with open("json/aadit.json") as f:
+    #     joblist = json.load(f)['joblist']
     for job in joblist:
         print(job['job_title'])
         print()
     # import json
-    # with open("json/latane.json", 'w') as outfile:
+    # with open("json/aadit.json", 'w') as outfile:
     #     json.dump({'joblist': joblist, 'keywords': keywords}, outfile)
     return jsonify({'joblist': joblist, 'keywords': keywords})
 
