@@ -1,1 +1,11 @@
-venv/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# PyCharm's project-specific config settings
+/.idea
+*.iml
+
+# dependencies
+frontend/node_modules
+
+#virtualenv
+/venv/
