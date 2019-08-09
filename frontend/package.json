@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "handlebars": "^4.0.14",
     "js-yaml": "^3.13.1",
+    "lodash": "^4.17.13",
+    "lodash.template": "^4.5.0",
     "package.json": "^2.0.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
