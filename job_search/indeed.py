@@ -1,8 +1,6 @@
 import requests
-import bs4
 from bs4 import BeautifulSoup
-import pandas as pd
-import time
+
 
 def extract_job_title_from_result(soup):
   job_titles = []

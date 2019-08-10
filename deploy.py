@@ -1,10 +1,9 @@
 import os
 from flask import *
 from werkzeug.utils import secure_filename
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from PDFHandler import *
 from job_search.main import *
-from json import *
 
 UPLOAD_FOLDER = 'static/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])

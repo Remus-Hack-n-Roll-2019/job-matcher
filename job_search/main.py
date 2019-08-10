@@ -1,6 +1,7 @@
-import json
 import operator
+
 from job_search.parallelize import *
+from job_search.indeed import search_indeed_jobs, get_description_for_given_job_url
 
 
 def queryJobs(listOfRequests):
