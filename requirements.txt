@@ -14,7 +14,7 @@ Jinja2==2.10.1
 joblib==1.0.0
 MarkupSafe==1.1.0
 nltk==3.5
-numpy==1.19.4
+numpy==1.22.0
 oauthlib==3.1.0
 pandas==1.1.5
 pdfminer==20191125
